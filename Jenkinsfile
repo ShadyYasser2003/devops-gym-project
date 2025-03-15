@@ -33,7 +33,7 @@ pipeline {
                     sh '''
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                             -Dsonar.projectKey=sonar \
-                            -Dsonar.sources=. 
+                            -Dsonar.sources=. \
 
                 '''
             }

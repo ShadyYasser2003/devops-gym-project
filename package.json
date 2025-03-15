@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test.js --reporter mocha-junit-reporter --reporter-options mochaFile=coverage/mocha-results.xml",
-    "coverage": "jest --coverage --coverageReporters=lcov",
+    "coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage --coverageReporters=lcov",
     "sonar": "sonar-scanner"
   },
   "jest": {

@@ -21,6 +21,15 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage('Run Tests & Generate Coverage') {
+            steps {
+                sh '''
+                npm test
+                npx jest --coverage // تشغيل الاختبارات وإنشاء تقرير التغطية بدون تعديل package.json
+                '''
+            }
+        }
+
 
         stage('Run Tests') {
             steps {
@@ -35,7 +44,7 @@ pipeline {
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                             -Dsonar.projectKey=sonar \
                             -Dsonar.sources=. \
-                    '''
+                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info                    '''
                 }
             }
         }

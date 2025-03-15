@@ -1,9 +1,8 @@
 pipeline {
     agent any
     environment {
-        SONARQUBE_URL = 'http://localhost:9000'
-        SONARQUBE_TOKEN = credentials('SonarQube')  // تأكد من إنشاء التوكن في Jenkins
-        SONAR_SCANNER_HOME = tool 'SonarScanner'    }
+        SONAR_SCANNER_HOME = tool 'SonarScanner'   
+         }
 
     
     tools {
@@ -30,11 +29,12 @@ pipeline {
               stage('SonarQube Analysis') {
             steps {
                 sh '''
-                    ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectKey=sonar \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONARQUBE_URL} \
-                        -Dsonar.login=${SONARQUBE_TOKEN}
+                 withSonarQubeEnv('SonarQube') { // استخدام البيئة المعرفة في Jenkins
+                    sh '''
+                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                            -Dsonar.projectKey=sonar \
+                            -Dsonar.sources=. 
+
                 '''
             }
         }

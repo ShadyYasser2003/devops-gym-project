@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh '''
                 npm test
-                npx jest --coverage // تشغيل الاختبارات وإنشاء تقرير التغطية بدون تعديل package.json
+                npx jest --coverage 
                 '''
             }
         }

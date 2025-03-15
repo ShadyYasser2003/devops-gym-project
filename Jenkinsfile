@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh '''
                 npm test
-                npx jest --coverage 
+                npx jest test.js --coverage 
                 '''
             }
         }

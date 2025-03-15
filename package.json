@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha index.js --reporter mocha-junit-reporter --reporter-options mochaFile=coverage/mocha-results.xml",
+    "test": "mocha test.js --reporter mocha-junit-reporter --reporter-options mochaFile=coverage/mocha-results.xml",
     "coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage --coverageReporters=lcov",
     "sonar": "sonar-scanner"
   },

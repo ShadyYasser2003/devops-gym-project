@@ -1,13 +1,13 @@
 pipeline {
     agent any
     environment {
-        SONAR_SCANNER_HOME = tool 'SonarScanner'   
-         }
+        SONAR_SCANNER_HOME = tool 'SonarScanner'
+    }
 
-    
     tools {
         nodejs 'nodejs'  // يجب أن يكون مطابقًا لاسم الأداة في إعدادات Jenkins
     }
+
     stages {
         stage('Checkout SCM') {
             steps {
@@ -15,29 +15,31 @@ pipeline {
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
             }
         }
-       
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
+
         stage('Run Tests') {
             steps {
                 sh 'npm test'
             }
         }
-              stage('SonarQube Analysis') {
+
+        stage('SonarQube Analysis') {
             steps {
-                sh '''
-                 withSonarQubeEnv('SonarQube') { // استخدام البيئة المعرفة في Jenkins
+                withSonarQubeEnv('SonarQube') { // ضبط البيئة تلقائيًا
                     sh '''
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                             -Dsonar.projectKey=sonar \
                             -Dsonar.sources=. \
-
-                '''
+                            -Dsonar.host.url=$SONAR_HOST_URL \
+                            -Dsonar.login=$SONAR_AUTH_TOKEN
+                    '''
+                }
             }
         }
-        
     }
 }

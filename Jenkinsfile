@@ -10,11 +10,13 @@ pipeline {
         nodejs 'nodejs'  // يجب أن يكون مطابقًا لاسم الأداة في إعدادات Jenkins
     }
     stages {
-        stage('Clone Repository') {
+        stage('Checkout SCM') {
             steps {
-                git 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
+                git branch: 'main',
+                    url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
             }
         }
+       
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'

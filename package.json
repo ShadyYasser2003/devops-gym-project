@@ -12,7 +12,8 @@
     "collectCoverage": true,
     "coverageReporters": ["lcov", "text", "cobertura"],
     "coverageDirectory": "coverage",
-    "testResultsProcessor": "jest-sonar-reporter"
+    "testResultsProcessor": "jest-sonar-reporter",
+    "testMatch": ["**/?(*.)+(spec|test).[jt]s"]
   },
   "keywords": [],
   "author": "",

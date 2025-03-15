@@ -21,19 +21,11 @@ pipeline {
                 sh 'npm install'
             }
         }
+        
         stage('Run Tests & Generate Coverage') {
             steps {
-                sh '''
-                npm test
-                npx jest test.js --coverage 
-                '''
-            }
-        }
-
-
-        stage('Run Tests') {
-            steps {
-                sh 'npm test'
+                sh 'npm test'  // تشغيل Mocha
+                sh 'npm run coverage'  // تشغيل Jest لتوليد تقارير التغطية
             }
         }
 
@@ -44,7 +36,9 @@ pipeline {
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                             -Dsonar.projectKey=sonar \
                             -Dsonar.sources=. \
-                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info                    '''
+                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+                            -Dsonar.junit.reportPaths=coverage/mocha-results.xml
+                    '''
                 }
             }
         }

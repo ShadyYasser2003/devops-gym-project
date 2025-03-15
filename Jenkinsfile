@@ -2,16 +2,16 @@ pipeline {
     agent any
     environment {
         SONARQUBE_URL = 'http://localhost:9000'
-        SONARQUBE_TOKEN = credentials('sonarqube-token')  // تأكد من إنشاء التوكن في Jenkins
+        SONARQUBE_TOKEN = credentials('SonarQube')  // تأكد من إنشاء التوكن في Jenkins
     }
     tools {
-        nodejs 'NodeJS'  // يجب أن يكون مطابقًا لاسم الأداة في إعدادات Jenkins
+        nodejs 'nodejs'  // يجب أن يكون مطابقًا لاسم الأداة في إعدادات Jenkins
         sonarScanner 'SonarScanner'
     }
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/your-repo/sonar-node.git'
+                git 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
             }
         }
         stage('Install Dependencies') {

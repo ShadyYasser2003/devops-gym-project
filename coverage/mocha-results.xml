@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="Mocha Tests" time="0.004" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2025-03-15T22:04:08" tests="0" time="0.000" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-03-15T22:11:46" tests="0" time="0.000" failures="0">
   </testsuite>
-  <testsuite name="Basic Tests" timestamp="2025-03-15T22:04:08" tests="1" file="/home/shady_yasser/jenkins/solar-system/sonar-node/test.js" time="0.003" failures="0">
-    <testcase name="Basic Tests should return true" time="0.000" classname="should return true">
+  <testsuite name="Basic Tests" timestamp="2025-03-15T22:11:46" tests="1" file="/home/shady_yasser/jenkins/solar-system/sonar-node/test.js" time="0.002" failures="0">
+    <testcase name="Basic Tests should return true" time="0.001" classname="should return true">
     </testcase>
   </testsuite>
 </testsuites>

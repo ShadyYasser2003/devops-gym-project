@@ -37,7 +37,8 @@ pipeline {
                             -Dsonar.projectKey=sonar \
                             -Dsonar.sources=. \
                             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                            -Dsonar.junit.reportPaths=coverage/mocha-results.xml
+                            -Dsonar.junit.reportPaths=coverage/mocha-results.xml \
+                            -Dsonar.coverage.cobertura.reportPath=coverage/cobertura-coverage.xml
                     '''
                 }
             }

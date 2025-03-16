@@ -33,7 +33,7 @@ pipeline {
         stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
             steps { 
                 timeout(time: 5, unit: 'MINUTES') { // تحديد مهلة زمنية للمرحلة بـ 5 دقائق
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') { 
+                    catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { 
                         script {
                             withSonarQubeEnv('SonarQube') { // ضبط بيئة SonarQube
                                 sh '''

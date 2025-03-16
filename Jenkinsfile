@@ -31,6 +31,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
+                timeout(time: 5, unit: 'MINUTES') {
                 withSonarQubeEnv('SonarQube') { // ضبط البيئة تلقائيًا
                     sh '''
                         ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
@@ -40,6 +41,8 @@ pipeline {
                             -Dsonar.junit.reportPaths=coverage/mocha-results.xml \
                             -Dsonar.coverage.cobertura.reportPath=coverage/cobertura-coverage.xml
                     '''
+                }
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }

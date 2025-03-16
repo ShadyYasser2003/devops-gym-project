@@ -34,7 +34,7 @@ pipeline {
             steps { 
                 timeout(time: 5, unit: 'MINUTES') { // تحديد مهلة زمنية للمرحلة بـ 5 دقائق
                     catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { 
-                        script {
+                       
                             withSonarQubeEnv('SonarQube') { // ضبط بيئة SonarQube
                                 sh '''
                                     ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
@@ -46,7 +46,7 @@ pipeline {
                                 '''
                             }
                             waitForQualityGate abortPipeline: true // انتظار نتائج SonarQube ووقف البايب لاين في حالة الفشل
-                        }
+                        
                     }
                 }
             }

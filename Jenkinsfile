@@ -32,7 +32,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {\
+                timeout(time: 5, unit: 'MINUTES') {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') { 
                     withSonarQubeEnv('SonarQube') {
                         // استخدام catchError لجعل المرحلة UNSTABLE عند الفشل

@@ -31,7 +31,7 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
+            steps { 
                 timeout(time: 5, unit: 'MINUTES') {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') { 
                     withSonarQubeEnv('SonarQube') {
@@ -49,6 +49,6 @@ pipeline {
                     }
                 }
             }
-        }
+            }
     }
 }

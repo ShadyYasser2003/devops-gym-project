@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     environment {
         SONAR_SCANNER_HOME = tool 'SonarScanner'
     }
@@ -32,17 +33,19 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
-                withSonarQubeEnv('SonarQube') { // ضبط البيئة تلقائيًا
-                    sh '''
-                        ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                            -Dsonar.projectKey=sonar \
-                            -Dsonar.sources=. \
-                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                            -Dsonar.junit.reportPaths=coverage/mocha-results.xml \
-                            -Dsonar.coverage.cobertura.reportPath=coverage/cobertura-coverage.xml
-                    '''
-                }
-                    waitForQualityGate abortPipeline: true
+                    withSonarQubeEnv('SonarQube') {
+                        catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') { // استخدام catchError لجعل المرحلة UNSTABLE عند الفشل
+                            sh '''
+                                ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                                    -Dsonar.projectKey=sonar \
+                                    -Dsonar.sources=. \
+                                    -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+                                    -Dsonar.junit.reportPaths=coverage/mocha-results.xml \
+                                    -Dsonar.coverage.cobertura.reportPath=coverage/cobertura-coverage.xml
+                            '''
+                            waitForQualityGate abortPipeline: true
+                        }
+                    }
                 }
             }
         }

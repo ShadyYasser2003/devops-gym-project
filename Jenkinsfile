@@ -32,9 +32,10 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') {\
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') { 
                     withSonarQubeEnv('SonarQube') {
-                        catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') { // استخدام catchError لجعل المرحلة UNSTABLE عند الفشل
+                        // استخدام catchError لجعل المرحلة UNSTABLE عند الفشل
                             sh '''
                                 ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                                     -Dsonar.projectKey=sonar \
@@ -44,7 +45,7 @@ pipeline {
                                     -Dsonar.coverage.cobertura.reportPath=coverage/cobertura-coverage.xml
                             '''
                             waitForQualityGate abortPipeline: true
-                        }
+                        
                     }
                 }
             }

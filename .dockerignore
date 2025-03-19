@@ -1,30 +1,4 @@
-# تجاهل مجلدات `node_modules` وملفات التبعيات
 node_modules
-npm-debug.log
-yarn.lock
-package-lock.json
-
-# تجاهل ملفات البيئة السرية
-.env
-.env.local
-.env.development
-.env.production
-.env.test
-
-# تجاهل الملفات المؤقتة والـ logs
-*.log
-logs
-*.tmp
-tmp
-nohup.out
-.vscode/
-.idea/
-.DS_Store
-
-# تجاهل الكود المترجم إذا كان المشروع يستخدم TypeScript
-dist/
-build/
-
-# تجاهل مجلدات Git وملفات النظام
-.git
-.gitignore
+coverage
+Jenkinsfile
+README.md

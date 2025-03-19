@@ -115,7 +115,7 @@ pipeline {
    stage('push image')
         {
                 steps{
-                    withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" 1) {
+                    withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" ) {
                     sh ' docker push  shady203/myproject:$GIT_COMMIT '
                 }
             }

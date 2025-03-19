@@ -117,6 +117,7 @@ pipeline {
             steps{
                 sh '''
                 docker push  shady203/myproject:$GIT_COMMIT 
+                
                 '''
             }
         }

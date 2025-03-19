@@ -116,7 +116,7 @@ pipeline {
         {
             steps{
                 sh '''
-                docker push  shady203/myproject:$GIT_COMMIT . 
+                docker push  shady203/myproject:$GIT_COMMIT 
                 '''
             }
         }

@@ -1,5 +1,6 @@
 # المرحلة الأولى: مرحلة البناء (Builder Stage)
 FROM node:18 AS builder
+RUN apt-get update && apt-get upgrade -y zlib1g
 WORKDIR /app
 COPY package*.json ./
 RUN npm install

@@ -20,7 +20,12 @@ pipeline {
           steps {
                sh 'whoami'
             }
-}
+    }
+         stage('Test Docker Access') {
+             steps {
+                     sh 'docker info'
+                }       
+            }
 
         stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {

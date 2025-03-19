@@ -65,9 +65,8 @@ pipeline {
         stage('build image')
         {
             steps{
-                sh '''
-                docker build -t shady203/myproject:$GIT_COMMIT . 
-                '''
+                sh ' docker build -t shady203/myproject:$GIT_COMMIT . ' 
+                
             }
         }
 

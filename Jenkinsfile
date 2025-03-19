@@ -15,8 +15,8 @@ pipeline {
                 git branch: 'main', // تحديد الفرع الرئيسي
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git' // رابط المستودع
             }
-        }
-        stage('Check User') {
+         }
+    /*    stage('Check User') {
           steps {
                sh 'whoami'
             }
@@ -26,7 +26,7 @@ pipeline {
                      sh 'docker info'
                 }       
             }
-   /* 
+   
         stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {
                 sh 'npm install' // تثبيت الحزم المطلوبة من package.json
@@ -66,7 +66,7 @@ pipeline {
         {
             steps{
                 sh '''
-                docker build -t myproject:$GIT_COMMIT . 
+                docker build -t shady203/myproject:$GIT_COMMIT . 
                 '''
             }
         }

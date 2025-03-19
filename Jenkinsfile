@@ -55,7 +55,12 @@ pipeline {
         stage('build image')
         {
             steps{
-                sh 'docker build -t shady203/myproject:$GIT_COMMIT . '
+                sh '''
+                
+                sudo usermod -aG docker $USER
+                docker build -t shady203/myproject:$GIT_COMMIT . 
+                
+                '''
             }
         }
 

@@ -26,14 +26,14 @@ pipeline {
                      sh 'docker info'
                 }       
             }
-
+   /* 
         stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {
                 sh 'npm install' // تثبيت الحزم المطلوبة من package.json
             }
         }
         
-   /*       stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
+      stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
             steps {
                 sh 'npm test'  // تشغيل Mocha لاختبارات الوحدة
                 sh 'npm run coverage'  // تشغيل Jest لإنشاء تقارير التغطية البرمجية
@@ -66,10 +66,7 @@ pipeline {
         {
             steps{
                 sh '''
-
-                
                 docker build -t myproject:$GIT_COMMIT . 
-                
                 '''
             }
         }

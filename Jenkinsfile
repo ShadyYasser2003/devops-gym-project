@@ -16,6 +16,11 @@ pipeline {
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git' // رابط المستودع
             }
         }
+        stage('Check User') {
+          steps {
+               sh 'whoami'
+            }
+}
 
         stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {

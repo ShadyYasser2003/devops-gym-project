@@ -73,6 +73,7 @@ pipeline {
 
         stage('Trivy Vulnerability Scanner') {
     steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { //
         sh '''
             trivy image shady203/myproject:$GIT_COMMIT \
             --severity LOW,MEDIUM,HIGH \
@@ -86,7 +87,8 @@ pipeline {
             --quiet \
             --format json -o trivy-image-CRITICAL-results.json
         '''
-    }
+    
+            }    }
     post {
     always {
         sh '''

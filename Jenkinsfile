@@ -116,10 +116,7 @@ pipeline {
         {
                 steps{
                     withDockerRegistry(credentialsId: 'DockerHub-credentials', url: '""') {
-                    sh '''
-                    docker push  shady203/myproject:$GIT_COMMIT 
-
-                    '''
+                    sh ' docker push  shady203/myproject:$GIT_COMMIT '
                 }
             }
         }

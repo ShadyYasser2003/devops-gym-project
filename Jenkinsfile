@@ -56,9 +56,9 @@ pipeline {
         {
             steps{
                 sh '''
+
                 
-                sudo usermod -aG docker $USER
-                docker build -t shady203/myproject:$GIT_COMMIT . 
+                docker build -t myproject:$GIT_COMMIT . 
                 
                 '''
             }

@@ -30,7 +30,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
+  /*      stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
             steps { 
                 timeout(time: 5, unit: 'MINUTES') { // تحديد مهلة زمنية للمرحلة بـ 5 دقائق
                     catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { 
@@ -51,5 +51,13 @@ pipeline {
                 }
             }
         }
+        */
+        stage('build image')
+        {
+            steps{
+                sh 'docker build -t shady203/myproject . '
+            }
+        }
+
     }
 }

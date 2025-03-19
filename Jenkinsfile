@@ -112,6 +112,14 @@ pipeline {
 }
 
 }
+   stage('push image')
+        {
+            steps{
+                sh '''
+                docker push  shady203/myproject:$GIT_COMMIT . 
+                '''
+            }
+        }
 
 
     }

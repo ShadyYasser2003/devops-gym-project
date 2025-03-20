@@ -134,6 +134,7 @@ pipeline {
                                     fi
                                     sudo docker run --name solar-system \
                                     -p 3001:3001 -d shady203/myproject:$GIT_COMMIT
+                                    
                                 "
                             '''
                         }

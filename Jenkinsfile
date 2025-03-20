@@ -16,7 +16,7 @@ pipeline {
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git' // رابط المستودع
             }
          }
-    /*    stage('Check User') {
+       /* stage('Check User') {
           steps {
                sh 'whoami'
             }
@@ -26,19 +26,19 @@ pipeline {
                      sh 'docker info'
                 }       
             }
-   
+   */
         stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {
                 sh 'npm install' // تثبيت الحزم المطلوبة من package.json
             }
         }
         
-      stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
+     /* stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
             steps {
                 sh 'npm test'  // تشغيل Mocha لاختبارات الوحدة
                 sh 'npm run coverage'  // تشغيل Jest لإنشاء تقارير التغطية البرمجية
             }
-        }
+        }*/
 
             stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
              steps { 
@@ -61,12 +61,12 @@ pipeline {
                 }
             }
         }
-        */
+        
         stage('build image')
         {
             steps{
-                sh ' docker build -t shady203/myproject:$GIT_COMMIT . ' 
                 
+                sh ' docker build -t shady203/myproject:$GIT_COMMIT . ' 
             }
         }
 
@@ -89,7 +89,7 @@ pipeline {
     
             }    }
     post {
-    always {
+        always {
         sh '''
             trivy convert \
                 --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
@@ -107,11 +107,11 @@ pipeline {
                 --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
                 --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json
         '''
-    }
-}
+             }
+        }
 
-}
-   stage('push image')
+        } 
+ /*  stage('push image to docker hub')
         {
                 steps{
                     withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" ) {
@@ -119,7 +119,32 @@ pipeline {
                 }
             }
         }
+        */
+        stage('Deploy - AWS ec2')
+            {
+                steps{
+                    script {
+                        sshagent(['ssh access to aws']) {
+                            sh '''
+                                ssh -o StrictHostKeyChecking=no ubuntu@54.234.89.104 "
+                                    if sudo docker ps -a | grep -q "solar-system" ; then
+                                        echo " Container found . Stopping ... "
+                                        sudo docker stop "solar-system" && sudo docker rm "solar-system"
+                                        echo " Container stopped and removed . "
+                                    fi
+                                    sudo docker run -name solar-system \
+                                    -p 3001:3001 -d shady203/myproject:$GIT_COMMIT
+                                "
+                            '''
+                        }
+                    }
 
 
+                }
+            }
     }
+    
+
+
 }
+

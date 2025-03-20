@@ -111,15 +111,15 @@ pipeline {
         }
 
         } 
- /*  stage('push image to docker hub')
-        {
-                steps{
-                    withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" ) {
-                    sh ' docker push  shady203/myproject:$GIT_COMMIT '
+        stage('push image to docker hub')
+            {
+                    steps{
+                        withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" ) {
+                        sh ' docker push  shady203/myproject:$GIT_COMMIT '
+                    }
                 }
             }
-        }
-        */
+        
         stage('Deploy - AWS ec2')
             {
                 steps{
@@ -133,7 +133,7 @@ pipeline {
                                         echo " Container stopped and removed . "
                                     fi
                                     sudo docker run --name solar-system \
-                                    -p 3001:3001 -d shady203/myproject:$GIT_COMMIT
+                                    -p 3001:3001 -d shady203/myproject:$GIT_C
                                 "
                             '''
                         }

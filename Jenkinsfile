@@ -132,7 +132,7 @@ pipeline {
                                         sudo docker stop "solar-system" && sudo docker rm "solar-system"
                                         echo " Container stopped and removed . "
                                     fi
-                                    sudo docker run -name solar-system \
+                                    sudo docker run --name solar-system \
                                     -p 3001:3001 -d shady203/myproject:$GIT_COMMIT
                                 "
                             '''

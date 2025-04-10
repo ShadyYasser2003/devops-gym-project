@@ -126,7 +126,7 @@ pipeline {
                     script {
                         sshagent(['ssh access to aws']) {
                             sh '''
-                                ssh -o StrictHostKeyChecking=no ubuntu@3.88.38.130 "
+                                ssh -o StrictHostKeyChecking=no ec2-user@3.88.38.130 "
                                     if sudo docker ps -a | grep -q "solar-system" ; then
                                         echo " Container found . Stopping ... "
                                         sudo docker stop "solar-system" && sudo docker rm "solar-system"

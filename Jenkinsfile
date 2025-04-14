@@ -121,7 +121,7 @@ pipeline {
                 }
             }
         
-        stage('Deploy - AWS ec2')
+/*         stage('Deploy - AWS ec2')
             {
                 when{
                     branch 'main'
@@ -146,7 +146,7 @@ pipeline {
 
 
                 }
-            }
+            } */
     
     
         stage('Exchange docker image in kubernetes'){
@@ -158,8 +158,8 @@ pipeline {
                         ##### Replace Docker Tag #####
                         git checkout main
                         git checkout -b feature-${BUILD_ID}
-                        sed -i "s|shady203/myproject:.*|shady203/myproject:${GIT_COMMIT}" deployment.yml
-                        cat deployment.yml
+                        sed -i "s|shady203/myproject:.*|shady203/myproject:${GIT_COMMIT}" deployment.yaml
+                        cat deployment.yaml
 
                         ##### Commit and Push to Feature Branch #####
                         git config --global user.email "shady@yasser.com"
@@ -170,6 +170,14 @@ pipeline {
                     '''
                 }
             }
+            post{
+                always{
+                    script {
+                        if (fileExists('sonarqube')) {
+                            sh 'rm -rf sonarqube'
+                        }
+                    }
+            }   
 
 
         }

@@ -4,7 +4,7 @@ pipeline {
     environment {
         SONAR_SCANNER_HOME = tool 'SonarScanner' // تعيين مسار أداة SonarScanner في Jenkins
         GITEA_TOKEN=credentials('gitea-credential')
-    }   
+    }
 
     tools {
         nodejs 'nodejs'  // تحديد أداة Node.js، ويجب أن يكون الاسم مطابقًا للإعدادات في Jenkins
@@ -16,37 +16,37 @@ pipeline {
                 git branch: 'main', // تحديد الفرع الرئيسي
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git' // رابط المستودع
             }
-         }
-         
-       /* stage('Check User') {
+        }
+
+        /* stage('Check User') {
           steps {
                sh 'whoami'
             }
-    }
-         stage('Test Docker Access') {
-             steps {
-                     sh 'docker info'
-                }       
+        }
+        stage('Test Docker Access') {
+            steps {
+                    sh 'docker info'
+                }
             }
-   */
+        */
         /* stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {
                 sh 'npm install' // تثبيت الحزم المطلوبة من package.json
             }
         } */
-        
-     /* stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
+
+        /* stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
             steps {
                 sh 'npm test'  // تشغيل Mocha لاختبارات الوحدة
                 sh 'npm run coverage'  // تشغيل Jest لإنشاء تقارير التغطية البرمجية
             }
         }*/
 
-            /* stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
-             steps { 
+        /* stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
+            steps {
                 timeout(time: 5, unit: 'MINUTES') { // تحديد مهلة زمنية للمرحلة بـ 5 دقائق
-                    catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { 
-                       
+                    catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+
                             withSonarQubeEnv('SonarQube') { // ضبط بيئة SonarQube
                                 sh '''
                                     ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
@@ -58,17 +58,15 @@ pipeline {
                                 '''
                             }
                             waitForQualityGate abortPipeline: true // انتظار نتائج SonarQube ووقف البايب لاين في حالة الفشل
-                        
+
                     }
                 }
             }
         } */
-        
-        stage('build image')
-        {
-            steps{
-                
-                sh ' docker build -t shady203/myproject:$GIT_COMMIT . ' 
+
+        stage('build image') {
+            steps {
+                sh ' docker build -t shady203/myproject:$GIT_COMMIT . '
             }
         }
 
@@ -88,7 +86,7 @@ pipeline {
                     --quiet \
                     --format json -o trivy-image-CRITICAL-results.json
             '''
-    
+
             }    }
             post {
                 always {
@@ -113,7 +111,7 @@ pipeline {
                 }
 
         }  */
-       /*  stage('push image to docker hub'){ 
+        /* stage('push image to docker hub'){
                     steps{
                         withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" ) {
                         sh ' docker push  shady203/myproject:$GIT_COMMIT '
@@ -122,8 +120,7 @@ pipeline {
             }*/
 
 
-        
-/*         stage('Deploy - AWS ec2')
+        /* stage('Deploy - AWS ec2')
             {
                 when{
                     branch 'main'
@@ -140,7 +137,7 @@ pipeline {
                                     fi
                                     sudo docker run --name solar-system \
                                     -p 3001:3001 -d shady203/myproject:$GIT_COMMIT
-                                    
+
                                 "
                             '''
                         }
@@ -149,12 +146,12 @@ pipeline {
 
                 }
             } */
-    
-    
-        stage('Exchange docker image in kubernetes'){
 
+
+        stage('Exchange docker image in kubernetes') {
             steps {
-                sh 'git clone -b main http://localhost:3000/ShadyYasser2003/sonarqube'
+                git branch: 'main',
+                    url: 'http://localhost:3000/ShadyYasser2003/sonarqube'
                 dir('sonarqube/kubernetes') {
                     sh '''
                         ##### Replace Docker Tag #####
@@ -172,18 +169,15 @@ pipeline {
                     '''
                 }
             }
-            post{
-                always{
+            post {
+                always {
                     script {
                         if (fileExists('sonarqube')) {
                             sh 'rm -rf sonarqube'
                         }
                     }
-            }   
-
-
+                }
+            }
         }
-
     }
-}    
-
+}

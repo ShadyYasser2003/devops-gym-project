@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         SONAR_SCANNER_HOME = tool 'SonarScanner' // تعيين مسار أداة SonarScanner في Jenkins
-    }
+        GITEA_TOKEN=credentials('gitea-credential')
+    }   
 
     tools {
         nodejs 'nodejs'  // تحديد أداة Node.js، ويجب أن يكون الاسم مطابقًا للإعدادات في Jenkins
@@ -71,44 +72,44 @@ pipeline {
         }
 
         stage('Trivy Vulnerability Scanner') {
-    steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { //
-        sh '''
-            trivy image shady203/myproject:$GIT_COMMIT \
-            --severity LOW,MEDIUM,HIGH \
-            --exit-code 0 \
-            --quiet \
-            --format json -o trivy-image-MEDIUM-results.json
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { //
+                sh '''
+                    trivy image shady203/myproject:$GIT_COMMIT \
+                    --severity LOW,MEDIUM,HIGH \
+                    --exit-code 0 \
+                    --quiet \
+                    --format json -o trivy-image-MEDIUM-results.json
 
-            trivy image shady203/myproject:$GIT_COMMIT \
-            --severity CRITICAL \
-            --exit-code 1 \
-            --quiet \
-            --format json -o trivy-image-CRITICAL-results.json
-        '''
+                    trivy image shady203/myproject:$GIT_COMMIT \
+                    --severity CRITICAL \
+                    --exit-code 1 \
+                    --quiet \
+                    --format json -o trivy-image-CRITICAL-results.json
+            '''
     
             }    }
-    post {
-        always {
-        sh '''
-            trivy convert \
-                --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
-                --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json
+            post {
+                always {
+                sh '''
+                    trivy convert \
+                        --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+                        --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json
 
-            trivy convert \
-                --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
-                --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
+                    trivy convert \
+                        --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+                        --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
 
-            trivy convert \
-                --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
-                --output trivy-image-MEDIUM-results.xml trivy-image-MEDIUM-results.json
+                    trivy convert \
+                        --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+                        --output trivy-image-MEDIUM-results.xml trivy-image-MEDIUM-results.json
 
-            trivy convert \
-                --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
-                --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json
-        '''
-             }
-        }
+                    trivy convert \
+                        --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+                        --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json
+                '''
+                    }
+                }
 
         } 
         stage('push image to docker hub')
@@ -122,6 +123,9 @@ pipeline {
         
         stage('Deploy - AWS ec2')
             {
+                when{
+                    branch 'main'
+                }
                 steps{
                     script {
                         sshagent(['ssh access to aws']) {
@@ -143,9 +147,33 @@ pipeline {
 
                 }
             }
-    }
     
+    
+        stage('Exchange docker image in kubernetes'){
+
+            steps {
+                sh 'git clone -b main http://localhost:3000/ShadyYasser2003/sonarqube'
+                dir('sonarqube/kubernetes') {
+                    sh '''
+                        ##### Replace Docker Tag #####
+                        git checkout main
+                        git checkout -b feature-${BUILD_ID}
+                        sed -i "s|shady203/myproject:.*|shady203/myproject:${GIT_COMMIT}" deployment.yml
+                        cat deployment.yml
+
+                        ##### Commit and Push to Feature Branch #####
+                        git config --global user.email "shady@yasser.com"
+                        git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git
+                        git add .
+                        git commit -am "Updated docker image"
+                        git push -u origin feature-${BUILD_ID}
+                    '''
+                }
+            }
 
 
-}
+        }
+
+    }
+}    
 

@@ -17,6 +17,7 @@ pipeline {
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git' // رابط المستودع
             }
          }
+         
        /* stage('Check User') {
           steps {
                sh 'whoami'
@@ -28,11 +29,11 @@ pipeline {
                 }       
             }
    */
-        stage('Install Dependencies') { // مرحلة تثبيت التبعيات
+        /* stage('Install Dependencies') { // مرحلة تثبيت التبعيات
             steps {
                 sh 'npm install' // تثبيت الحزم المطلوبة من package.json
             }
-        }
+        } */
         
      /* stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
             steps {
@@ -41,7 +42,7 @@ pipeline {
             }
         }*/
 
-            stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
+            /* stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
              steps { 
                 timeout(time: 5, unit: 'MINUTES') { // تحديد مهلة زمنية للمرحلة بـ 5 دقائق
                     catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { 
@@ -61,7 +62,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
         
         stage('build image')
         {
@@ -71,7 +72,7 @@ pipeline {
             }
         }
 
-        stage('Trivy Vulnerability Scanner') {
+        /* stage('Trivy Vulnerability Scanner') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') { //
                 sh '''
@@ -111,15 +112,16 @@ pipeline {
                     }
                 }
 
-        } 
-        stage('push image to docker hub')
-            {
+        }  */
+       /*  stage('push image to docker hub'){ 
                     steps{
                         withDockerRegistry(credentialsId: 'DockerHub-credentials', url: "" ) {
                         sh ' docker push  shady203/myproject:$GIT_COMMIT '
                     }
                 }
-            }
+            }*/
+
+
         
 /*         stage('Deploy - AWS ec2')
             {

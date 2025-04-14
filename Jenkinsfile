@@ -64,11 +64,11 @@ pipeline {
             }
         } */
 
-        stage('build image') {
+        /* stage('build image') {
             steps {
                 sh ' docker build -t shady203/myproject:$GIT_COMMIT . '
             }
-        }
+        } */
 
         /* stage('Trivy Vulnerability Scanner') {
             steps {
@@ -157,7 +157,7 @@ pipeline {
                         ##### Replace Docker Tag #####
                         git checkout main
                         git checkout -b feature-${BUILD_ID}
-                        sed -i "s|shady203/myproject:.*|shady203/myproject:${GIT_COMMIT}" deployment.yaml
+                        sed -i "s|shady203/myproject:.*|shady203/myproject:${GIT_COMMIT}|g" deployment.yaml
                         cat deployment.yaml
 
                         ##### Commit and Push to Feature Branch #####

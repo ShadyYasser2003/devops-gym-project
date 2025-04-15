@@ -151,7 +151,7 @@ pipeline {
         stage('Exchange docker image in kubernetes') {
             steps {
                 git branch: 'main',
-                    url: 'http://localhost:3000/ShadyYasser2003/sonarqube'
+                    url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
 
                 sh '''
                     ##### Replace Docker Tag #####

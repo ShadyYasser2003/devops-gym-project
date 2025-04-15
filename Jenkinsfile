@@ -161,7 +161,7 @@ pipeline {
                     cat kubernetes/deployment.yaml
                     ##### Commit and Push to Feature Branch #####
                     git config --global user.email "shady@yasser.com"
-                    git remote set-url origin http://localhost:3000/ShadyYasser2003/sonarqube.git
+                    git remote origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git
                     git add .
                     git commit -am "Updated docker image"
                     git push -u origin feature-${BUILD_ID}

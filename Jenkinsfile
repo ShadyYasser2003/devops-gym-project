@@ -152,7 +152,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube'
-                dir('sonarqube/kubernetes/') {
+                dir("sonarqube/kubernetes/") {
                     sh '''
                         ##### Replace Docker Tag #####
                         git checkout main

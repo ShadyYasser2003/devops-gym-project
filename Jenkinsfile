@@ -149,40 +149,40 @@ pipeline {
 
 
         stage('Exchange docker image in kubernetes') {
-            steps {
-            script {
-                // استخراج الكود من Git
-                git branch: 'main',
-                    url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
+                    steps {
+                        script {
+                            // استخراج الكود من Git
+                            git branch: 'main',
+                                url: 'http://localhost:3000/ShadyYasser2003/sonarqube.git'
 
-                // الانتقال إلى الفرع الرئيسي (للتأكد)
-                git checkout branch: 'main'
+                            // الانتقال إلى الفرع الرئيسي (للتأكد)
+                            git checkout 'main' // تم التصحيح
 
-                // إنشاء فرع جديد
-                git checkout branch: "feature-${BUILD_ID}", newBranch: true
+                            // إنشاء فرع جديد
+                            git checkout branch: "feature-${BUILD_ID}", newBranch: true
 
-                // استبدال علامة Docker في ملف deployment.yaml
-                sh "sed -i 's#shady203/myproject:.*#shady203/myproject:${GIT_COMMIT}#g' kubernetes/deployment.yaml"
+                            // استبدال علامة Docker في ملف deployment.yaml
+                            sh "sed -i 's#shady203/myproject:.*#shady203/myproject:${GIT_COMMIT}#g' kubernetes/deployment.yaml"
 
-                // عرض محتوى الملف المعدل
-                sh "cat kubernetes/deployment.yaml"
+                            // عرض محتوى الملف المعدل
+                            sh "cat kubernetes/deployment.yaml"
 
-                // تكوين البريد الإلكتروني لمستخدم Git
-                git config credentialId: '', global: true, name: 'user.email', value: 'shady@yasser.com' //credentialId هنا فارغ لأنه قد لا يكون مطلوبًا لـ config --global
+                            // تكوين البريد الإلكتروني لمستخدم Git
+                            git config credentialId: '', global: true, name: 'user.email', value: 'shady@yasser.com' //credentialId هنا فارغ لأنه قد لا يكون مطلوبًا لـ config --global
 
-                // تعيين عنوان URL للمستودع البعيد (مع تضمين التوكن)
-                sh "git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git"
+                            // تعيين عنوان URL للمستودع البعيد (مع تضمين التوكن)
+                            sh "git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git"
 
-                // إضافة جميع التغييرات
-                git add '.'
+                            // إضافة جميع التغييرات
+                            git add '.'
 
-                // عمل commit للتغييرات
-                git commit message: 'Updated docker image'
+                            // عمل commit للتغييرات
+                            git commit message: 'Updated docker image'
 
-                // دفع الفرع الجديد
-                git push origin: "feature-${BUILD_ID}"
-            }
-}
+                            // دفع الفرع الجديد
+                            git push origin: "feature-${BUILD_ID}"
+                        }
+                 }
             post {
                 always {
                     script {

@@ -164,8 +164,7 @@ pipeline {
                         git commit -am "Updated docker image"
                         git push -u origin feature-${BUILD_ID}
                     '''
-                        git push credentialsId:"gitea-credential", url: "http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git", branch: "feature-${BUILD_ID}", remoteName: 'origin'
-            }
+                        push credentialsId: 'gitea-credential', url: "http://localhost:3000/ShadyYasser2003/sonarqube.git", branch: "feature-${BUILD_ID}", remoteName: 'origin'             }
             post {
                 always {
                     script {

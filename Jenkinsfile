@@ -158,7 +158,7 @@ pipeline {
                         git checkout main
                         git checkout -b feature-${BUILD_ID}
                         sed -i "s#shady203/myproject:.*#shady203/myproject:${GIT_COMMIT}#g" kubernetes/deployment.yaml                            
-                        cat deployment.yaml
+                        cat kubernetes/deployment.yaml
                         ##### Commit and Push to Feature Branch #####
                         git config --global user.email "shady@yasser.com"
                         git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git

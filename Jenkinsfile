@@ -149,16 +149,9 @@ pipeline {
 
 
         stage('Exchange docker image in kubernetes') {
-<<<<<<< HEAD
-                    steps {
+                steps {
                 git branch: "main",
                     url: "http://localhost:3000/ShadyYasser2003/sonarqube.git"
-=======
-            steps {
-                git branch: "main",
-                    url: "http://localhost:3000/ShadyYasser2003/sonarqube"
->>>>>>> add1ae1 (21)
-             
                     sh '''
                         ##### Replace Docker Tag #####
                         git checkout main
@@ -167,11 +160,8 @@ pipeline {
                         cat kubernetes/deployment.yaml
                         ##### Commit and Push to Feature Branch #####
                         git config --global user.email "shady@yasser.com"
-<<<<<<< HEAD
                         git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git                        
-=======
-                        git remote url: "http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git", name: 'origin'                        
->>>>>>> add1ae1 (21)
+                        git remote url: "http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git", name: 'origin'
                         git add .
                         git commit -am "Updated docker image"
                         git push -u origin feature-${BUILD_ID}

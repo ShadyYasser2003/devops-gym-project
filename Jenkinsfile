@@ -152,14 +152,13 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'http://localhost:3000/ShadyYasser2003/sonarqube'
-                dir("sonarqube/kubernetes/") {
+             
                     sh '''
                         ##### Replace Docker Tag #####
                         git checkout main
                         git checkout -b feature-${BUILD_ID}
-                        sed -i "s#shady203/myproject:.*#shady203/myproject:${GIT_COMMIT}#g" deployment.yaml
+                        sed -i "s#shady203/myproject:.*#shady203/myproject:${GIT_COMMIT}#g" kubernetes/deployment.yaml                            
                         cat deployment.yaml
-
                         ##### Commit and Push to Feature Branch #####
                         git config --global user.email "shady@yasser.com"
                         git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git
@@ -167,7 +166,6 @@ pipeline {
                         git commit -am "Updated docker image"
                         git push -u origin feature-${BUILD_ID}
                     '''
-                }
             }
             post {
                 always {

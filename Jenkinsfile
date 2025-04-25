@@ -148,11 +148,10 @@ pipeline {
             } */
 
 
-        stage('Exchange docker image in kubernetes') {
+/*         stage('Exchange docker image in kubernetes') {
                 steps {
                     sh '''
                         git clone -b main http://localhost:3000/ShadyYasser2003/sonarqube
-                        git remote add origin2 http://localhost:3000/ShadyYasser2003/sonarqube.git
                         ##### Replace Docker Tag #####
                         git checkout main
                         git checkout -b feature-${BUILD_ID}
@@ -160,12 +159,12 @@ pipeline {
                         cat kubernetes/deployment.yaml
                         ##### Commit and Push to Feature Branch #####
                         git config --global user.email "shady@yasser.com"
-                        git config --global user.name "shady feature"
-                        git add .   
+                        git remote set-url origin http://${GITEA_TOKEN}@localhost:3000/ShadyYasser2003/sonarqube.git                        
+                        git add .
                         git commit -am "Updated docker image"
-                        git push -u origin2 feature-${BUILD_ID}
+                        git push -u origin feature-${BUILD_ID}
                     '''
-                }
+                        push credentialsId: 'gitea-credential', url: "http://localhost:3000/ShadyYasser2003/sonarqube.git", branch: "feature-${BUILD_ID}", remoteName: 'origin'             }
             post {
                 always {
                     script {
@@ -176,5 +175,5 @@ pipeline {
                 }
             }
         }
-    }
+    } */
 }

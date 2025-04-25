@@ -159,6 +159,7 @@ pipeline {
                         cat kubernetes/deployment.yaml
                         ##### Commit and Push to Feature Branch #####
                         git config --global user.email "shady@yasser.com"
+                        git config --global user.name "shady feature"
                         git add .   
                         git commit -am "Updated docker image"
                         git push -u origin feature-${BUILD_ID}

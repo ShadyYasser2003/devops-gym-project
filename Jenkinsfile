@@ -152,7 +152,7 @@ pipeline {
                 steps {
                     sh '''
                         git clone -b main http://localhost:3000/ShadyYasser2003/sonarqube
-                        git remote add origin http://localhost:3000/ShadyYasser2003/sonarqube.git
+                        git remote add origin2 http://localhost:3000/ShadyYasser2003/sonarqube.git
                         ##### Replace Docker Tag #####
                         git checkout main
                         git checkout -b feature-${BUILD_ID}
@@ -163,7 +163,7 @@ pipeline {
                         git config --global user.name "shady feature"
                         git add .   
                         git commit -am "Updated docker image"
-                        git push -u origin feature-${BUILD_ID}
+                        git push -u origin2 feature-${BUILD_ID}
                     '''
                 }
             post {

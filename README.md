@@ -1,66 +1,68 @@
-# **توثيق مشروع الجيم باستخدام Docker، Kubernetes، Jenkins، Git، Gitea، SonarQube، Trivy، ArgoCD و EC2**
+# **Game Project Documentation Using Docker, Kubernetes, Jenkins, Git, Gitea, SonarQube, Trivy, ArgoCD, and EC2**
 
-## 1. **مقدمة (Introduction)**
+## 1. **Introduction**
 
-هذا المشروع هو تطبيق ويب يعتمد على تقنيات حديثة في عالم DevOps، يركز على تطبيق إدارة لجيم (Game). تم استخدام مجموعة من الأدوات المتقدمة لتطوير هذا المشروع، مع توفير أتمتة عملية النشر والتحقق من الأمان.
+This project is a web-based application focused on managing a game. It leverages modern DevOps practices and a wide range of tools to ensure continuous integration, deployment, and security checks. The project involves setting up a continuous delivery pipeline and automated security scanning using advanced tools.
 
-**أهداف المشروع:**
-- بناء بيئة DevOps متكاملة.
-- تطبيق أتمتة لتحليل الكود باستخدام SonarQube.
-- توفير نشر مستمر باستخدام Jenkins وArgoCD.
-- فحص الثغرات الأمنية باستخدام Trivy.
-- نشر التطبيق على Kubernetes وEC2.
+**Project Objectives:**
+- Build a fully integrated DevOps environment.
+- Perform static code analysis with SonarQube.
+- Implement Continuous Delivery using Jenkins and ArgoCD.
+- Run vulnerability scanning on Docker images using Trivy.
+- Deploy the application on Kubernetes and EC2.
 
-## 2. **الأدوات والتقنيات (Tools and Technologies)**
+## 2. **Tools and Technologies**
 
-في هذا المشروع تم استخدام الأدوات التالية:
+The following tools and technologies were used in this project:
 
-- **Docker**: تم استخدامه لتشغيل الحاويات بشكل معزول، مما يتيح إمكانية تشغيل التطبيق بشكل منفصل عن النظام الأساسي.
+- **Docker**: Used for containerization to run the application in isolated environments, ensuring consistency across different stages of development and deployment.
   
-- **Kubernetes**: لإدارة وتنظيم الحاويات. استخدمنا Kubernetes لضمان نشر وإدارة الحاويات بشكل مرن وسهل.
+- **Kubernetes**: Managed the orchestration of Docker containers, enabling efficient deployment and scaling of applications.
+  
+- **Jenkins**: Automates the build, test, and deployment pipeline to ensure smooth and repeatable software delivery.
+  
+- **Git** and **Gitea**: Used for version control. Git handles branching and commits, while Gitea serves as the Git repository manager.
+  
+- **SonarQube**: A static code analysis tool that ensures the code quality by identifying bugs, vulnerabilities, and code smells.
+  
+- **Trivy**: A security scanner for Docker images, used to scan for vulnerabilities and ensure the integrity of the images before they are deployed.
+  
+- **ArgoCD**: Automates and manages continuous delivery of applications to Kubernetes clusters.
+  
+- **EC2**: Used for manually deploying the application initially, as a simpler method for running the application in the cloud.
 
-- **Jenkins**: أداة أتمتة تُستخدم لتنفيذ بايب لاين لأتمتة عملية البناء، الاختبار، والنشر.
+## 3. **Environment Setup**
 
-- **Git** و **Gitea**: لإدارة الشيفرة المصدرية للمشروع. تم استخدام Git لإدارة الفروع والإصدارات بينما Gitea هو المستودع المستضاف للمشروع.
+### **Local Environment Setup:**
 
-- **SonarQube**: لتحليل الكود والتحقق من جودته. يقوم SonarQube بفحص الشيفرة المصدرية واكتشاف المشاكل في الجودة مثل الثغرات الأمنية أو الأكواد غير الفعالة.
-
-- **Trivy**: أداة لفحص الثغرات الأمنية في الصور Docker. تم استخدامها لضمان أن الصور التي يتم نشرها خالية من الثغرات المعروفة.
-
-- **ArgoCD**: أداة للتحكم في النشر التلقائي على Kubernetes، مما يسمح بتنسيق التحديثات بشكل سلس وفعال.
-
-- **EC2**: تم نشر المشروع في البداية يدويًا على خوادم AWS EC2 كحل مبدئي.
-
-## 3. **إعداد البيئة (Environment Setup)**
-
-### **البيئة المحلية**
 1. **Docker**:
-   - تحميل وتثبيت Docker على الجهاز.
-   - إنشاء `Dockerfile` لتحديد كيفية بناء الحاوية.
-   
+   - Install Docker on your local machine.
+   - Create a `Dockerfile` that defines the build process for your container.
+
 2. **Kubernetes**:
-   - إعداد Kubernetes باستخدام أدوات مثل Minikube أو إعدادات Kubernetes في السحابة (على سبيل المثال، GKE أو EKS).
-   
+   - Set up a Kubernetes cluster using tools like Minikube (for local setups) or cloud-based clusters like Google Kubernetes Engine (GKE) or AWS Elastic Kubernetes Service (EKS).
+
 3. **Jenkins**:
-   - تثبيت Jenkins وتشغيله على الخادم المحلي.
-   - إعداد أدوات مثل Node.js و SonarQube داخل Jenkins.
-   
+   - Install Jenkins and configure it on a server.
+   - Set up tools like Node.js and SonarQube integration within Jenkins.
+
 4. **Gitea**:
-   - استضافة Gitea لتخزين الكود.
-   - إعداد المستودع وربطه مع Jenkins وGit.
+   - Host a Gitea instance to store the project’s source code.
+   - Set up webhooks to trigger Jenkins builds automatically upon new commits.
 
-### **التوثيق على EC2**
-1. **إعداد خوادم EC2**:
-   - نشر التطبيق على EC2 باستخدام SSH وتثبيت Docker.
-   - إعداد حاوية Docker على EC2 لتشغيل التطبيق.
+### **EC2 Deployment Setup:**
 
-## 4. **إعدادات المشروع (Project Setup)**
+1. **Set up EC2 Instances**:
+   - Deploy the application to an EC2 instance using SSH and Docker.
+   - Create a Docker container on EC2 to run the application.
 
-### **إعدادات Git و Gitea**:
-- تم ربط المشروع بـ Gitea وتحديد فرع `main` كمصدر أساسي.
+## 4. **Project Setup**
 
-### **إعداد Docker**:
-- تم كتابة `Dockerfile` لتحديد كيفية بناء الحاوية:
+### **Git and Gitea Setup:**
+- The project is linked to a Gitea repository, with the `main` branch as the source for the application.
+
+### **Docker Setup:**
+- A `Dockerfile` is used to build the Docker container:
   ```Dockerfile
   FROM node:14
   WORKDIR /app

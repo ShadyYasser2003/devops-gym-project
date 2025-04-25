@@ -1,7 +1,7 @@
 import request from 'supertest'; // استيراد Supertest
 import server from './server.js'; // استيراد السيرفر
 
-describe('Server Tests', () => {
+describe('Server Tests', () => { 
   it('should return 200 OK for the homepage (/)', (done) => {
     request(server)
       .get('/')

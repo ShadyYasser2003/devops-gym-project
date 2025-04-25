@@ -1,6 +1,6 @@
 # **Gym Project**
 
-## 1. **Introduction**
+## 1. **Introduction** 
 
 This project is a simple web-based Gym application, developed as a part of a training project. The application consists of a single-page interface that provides basic functionality for gym management. While the project is not highly complex, it incorporates a variety of DevOps practices and tools to facilitate continuous integration, deployment, and security scanning. The project also utilizes cloud infrastructure for deployment and testing, ensuring a hands-on experience with modern DevOps tools.
 

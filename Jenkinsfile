@@ -163,6 +163,7 @@ pipeline {
                         git commit -am "Updated docker image"
                         git push -u origin feature-${BUILD_ID}
                     '''
+                }
             post {
                 always {
                     script {

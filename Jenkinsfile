@@ -148,7 +148,7 @@ pipeline {
             } */
 
 
-/*         stage('Exchange docker image in kubernetes') {
+        /* stage('Exchange docker image in kubernetes') {
                 steps {
                     sh '''
                         git clone -b main http://localhost:3000/ShadyYasser2003/sonarqube
@@ -174,6 +174,6 @@ pipeline {
                     }
                 }
             }
-        }
-    } */
+        } */
+    }
 }

@@ -1,57 +1,83 @@
-# **GYM Management System Documentation Using Docker, Kubernetes, Jenkins, Git, Gitea, SonarQube, Trivy, ArgoCD, and EC2**
+# **Gym Project
 
 ## 1. **Introduction**
 
-This project is a **web-based GYM management application**. It is designed to streamline gym membership management, class schedules, and progress tracking. The project uses modern **DevOps** practices and integrates various tools to ensure seamless **continuous integration (CI)**, **continuous deployment (CD)**, and **security scanning**. The system also ensures code quality through static analysis and manages vulnerability checks for Docker images.
+This project is a simple web-based Gym application, developed as a part of a training project. The application consists of a single-page interface that provides basic functionality for gym management. While the project is not highly complex, it incorporates a variety of DevOps practices and tools to facilitate continuous integration, deployment, and security scanning. The project also utilizes cloud infrastructure for deployment and testing, ensuring a hands-on experience with modern DevOps tools.
 
 ### **Project Objectives:**
-- Build a fully integrated DevOps pipeline for continuous delivery.
-- Perform **static code analysis** using **SonarQube** to ensure code quality.
-- Implement continuous deployment using **Jenkins** and **ArgoCD**.
-- Perform **vulnerability scanning** on Docker images using **Trivy**.
-- Deploy the application on **Kubernetes** and **EC2**.
+- To create a fully integrated DevOps pipeline.
+- Perform static code analysis using SonarQube to ensure code quality.
+- Implement Continuous Delivery (CD) using Jenkins and ArgoCD.
+- Scan Docker images for vulnerabilities using Trivy.
+- Deploy the application on Kubernetes (Minikube for local development) and EC2 (for cloud-based deployment).
 
 ## 2. **Tools and Technologies**
 
-The following tools and technologies were used in this project:
+The following tools and technologies were utilized in the Gym project:
 
-- **Docker**: Used for containerizing the GYM application, ensuring that it runs in isolated, consistent environments.
+- **Docker**: Containerization technology used to package the application into isolated containers, ensuring consistency across development, testing, and deployment stages.
   
-- **Kubernetes**: Used for orchestrating and managing the deployment, scaling, and monitoring of Docker containers in a cloud environment.
-  
-- **Jenkins**: Automates the build, test, and deployment pipeline for continuous integration and deployment.
-  
-- **Git** and **Gitea**: Version control is handled by Git, and Gitea is used as the Git repository manager for the source code.
+- **Kubernetes (Minikube)**: Minikube was used to set up a local Kubernetes cluster, allowing for orchestration of Docker containers and testing the deployment of the application in a Kubernetes environment.
 
-- **SonarQube**: A tool for static code analysis that helps maintain code quality by identifying bugs, vulnerabilities, and code smells.
+- **Jenkins**: Automates the build, test, and deployment processes to enable a smooth and repeatable delivery pipeline.
 
-- **Trivy**: A Docker image vulnerability scanner used to identify potential security risks in Docker images before deployment.
+- **Git** and **Gitea**: Git was used for version control, while Gitea hosted the project’s Git repository. Webhooks were configured to trigger Jenkins builds whenever changes were pushed.
 
-- **ArgoCD**: Manages continuous delivery to Kubernetes clusters, providing automated deployment workflows.
+- **SonarQube**: A static code analysis tool that ensures high code quality by identifying bugs, security vulnerabilities, and code smells.
 
-- **EC2**: Used for manual deployment of the application to a virtual server for testing and running the application in a production-like environment.
+- **Trivy**: A security scanner for Docker images, used to identify vulnerabilities in images before deployment.
+
+- **ArgoCD**: A continuous delivery tool for Kubernetes, automating the deployment of the application from Git repositories to Kubernetes clusters.
+
+- **EC2**: Used for manual deployment of the application as an initial approach to running the app on the cloud.
 
 ## 3. **Environment Setup**
 
 ### **Local Environment Setup:**
 
 1. **Docker**:
-   - Install Docker on your local machine.
-   - Create a `Dockerfile` to define how to build and run your GYM application inside a container.
+   - Install Docker on your machine to enable the building and running of Docker containers.
+   - A custom `Dockerfile` was created to build the container for the Gym project.
 
-2. **Kubernetes**:
-   - Set up a local Kubernetes cluster using **Minikube** or use cloud-based Kubernetes services like **Google Kubernetes Engine (GKE)** or **Amazon Elastic Kubernetes Service (EKS)**.
+2. **Kubernetes (Minikube)**:
+   - Minikube was used to set up a local Kubernetes environment for testing the application before deploying it to the cloud.
 
 3. **Jenkins**:
-   - Install Jenkins and configure it to manage your CI/CD pipeline.
-   - Install required tools like **Node.js**, **SonarQube**, and integrate them with Jenkins.
+   - Jenkins was set up to automate the CI/CD pipeline, which includes pulling code from the Gitea repository, building Docker images, performing security scans using Trivy, and deploying the application using ArgoCD.
 
 4. **Gitea**:
-   - Host your source code in a **Gitea** repository.
-   - Set up webhooks in Gitea to trigger Jenkins jobs when code is pushed to the repository.
+   - A Gitea instance was set up as a self-hosted Git service to manage the source code of the Gym project. It was integrated with Jenkins to trigger builds upon code changes.
 
 ### **EC2 Deployment Setup:**
 
 1. **Set up EC2 Instances**:
-   - Deploy the GYM application to an **EC2 instance** using **SSH** and **Docker**.
-   - Create a Docker container on EC2 to run the application
+   - The application was deployed to an EC2 instance using SSH.
+   - Docker was used on EC2 to run the Gym app in a containerized environment.
+
+## 4. **Project Setup**
+
+### **Git and Gitea Setup:**
+- The project is linked to a Gitea repository, with the `main` branch used for development. Each change in the repository triggers Jenkins to build and deploy the project.
+
+### **Docker Setup:**
+- A `Dockerfile` was created to containerize the application for consistent execution across environments:
+  ```Dockerfile
+
+FROM node:18 AS builder
+RUN apt-get update && apt-get upgrade -y zlib1g
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+FROM node:18-slim
+WORKDIR /app
+COPY --from=builder /app/package*.json ./
+RUN npm install --omit=dev
+
+COPY --from=builder /app/server.js ./
+COPY --from=builder /app/public ./public
+
+EXPOSE 3001
+CMD [ "node", "server.js" ]
+

@@ -1,4 +1,4 @@
-# **Gym Project
+# **Gym Project**
 
 ## 1. **Introduction**
 

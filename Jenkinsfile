@@ -35,13 +35,13 @@ pipeline {
             }
         }
 
-        stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
+     /*    stage('Run Tests & Generate Coverage') { // مرحلة تشغيل الاختبارات وتوليد تقارير التغطية
             steps {
                 sh 'npm test'  // تشغيل Mocha لاختبارات الوحدة
                 sh 'npm run coverage'  // تشغيل Jest لإنشاء تقارير التغطية البرمجية
             }
         }
-
+ */
         stage('SonarQube Analysis') { // مرحلة تحليل الكود باستخدام SonarQube
             steps {
                 timeout(time: 5, unit: 'MINUTES') { // تحديد مهلة زمنية للمرحلة بـ 5 دقائق

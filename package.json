@@ -5,31 +5,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test.js",
+    "test": "NODE_ENV=test jest",
     "coverage": "nyc --reporter=cobertura --reporter=lcov --reporter=text --reporter=json-summary npm test",
     "sonar": "sonar-scanner",
     "start": "node server.js"
   },
-  "jest": {
-    "collectCoverage": true,
-    "coverageReporters": [
-      "lcov",
-      "text",
-      "cobertura"
-    ],
-    "coverageDirectory": "coverage",
-    "testResultsProcessor": "jest-sonar-reporter"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
+    "@babel/preset-env": "^7.22.5",
+    "babel-jest": "^29.7.0",
     "chai": "^5.2.0",
-    "chai-http": "^4.4.0",
     "jest": "^29.7.0",
-    "jest-sonar-reporter": "^2.0.0",
     "mocha": "^11.1.0",
-    "mocha-junit-reporter": "^2.2.1",
     "nyc": "^15.1.0",
     "sonarqube-scanner": "^2.8.0"
   },
@@ -37,4 +23,3 @@
     "express": "^4.21.2"
   }
 }
-

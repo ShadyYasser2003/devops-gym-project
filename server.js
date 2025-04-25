@@ -23,4 +23,3 @@ const serverInstance = app.listen(port, () => {
 });
 
 export default serverInstance;
-

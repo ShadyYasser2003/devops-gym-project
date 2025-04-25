@@ -17,3 +17,4 @@ COPY --from=builder /app/public ./public
 
 EXPOSE 3001
 CMD [ "node", "server.js" ]
+ 

@@ -9,7 +9,7 @@
     "coverage": "nyc --reporter=cobertura --reporter=lcov --reporter=text --reporter=json-summary npm test",
     "sonar": "sonar-scanner",
     "start": "node server.js"
-  },
+  }, 
   "devDependencies": {
     "@babel/preset-env": "^7.22.5",
     "babel-jest": "^29.7.0",

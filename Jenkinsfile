@@ -68,7 +68,7 @@ pipeline {
             steps {
                 sh ' docker build -t shady203/myproject:$GIT_COMMIT . '
             }
-        }
+        } 
 
         stage('Trivy Vulnerability Scanner') {
             steps {
